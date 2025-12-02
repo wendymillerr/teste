@@ -18,20 +18,17 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+       'id', 
+        'first_name', 
+        'last_name', 
+        'email', 
+        'phone', 
+        'image', 
+        'birth_date', 
+        'address',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+   
 
     /**
      * The attributes that should be cast.
@@ -39,6 +36,11 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+          'address' => 'array',
     ];
+
+     public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }
