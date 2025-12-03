@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-namespace App\Http\Controllers;
-
 use App\Models\User;
 use App\Models\Post;
 
@@ -12,8 +10,12 @@ class UserController extends Controller
     // Perfil do usuário
     public function show($id)
     {
-        $user = User::findOrFail($id);
-        return view('users.show', compact('user'));
+        $user = User::withCount('posts')->findOrFail($id);
+
+    // Busca posts do usuário com contagem de comentários
+    $posts = Post::where('user_id', $id)->withCount('comments')->paginate(10);
+
+    return view('users.show', compact('user', 'posts'));
     }
 
     // Posts de um usuário

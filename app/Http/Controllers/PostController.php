@@ -15,6 +15,8 @@ class PostController extends Controller
         return view('posts.index', compact('posts'));
     }
 
+
+    
     // Detalhes de um post
     public function show($id)
     {
