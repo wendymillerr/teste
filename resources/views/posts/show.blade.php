@@ -11,7 +11,7 @@
             {{-- Autor --}}
             @if(isset($post->user))
                 <div class="flex items-center gap-3 text-gray-500">
-                  <a href="{{ route('users.show', $post->user->id) }}" class="flex items-center gap-3 hover:underline">
+          <a href="{{ route('user.show', $post->user->id) }}" class="flex items-center gap-3 hover:underline">
 
                         <img 
                             src="{{ $post->user->image ?? 'https://ui-avatars.com/api/?name=' . urlencode($post->user->first_name) }}" 
