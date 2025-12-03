@@ -152,34 +152,47 @@ class SyncDummyJson extends Command
     }
 
     private function saveComments(array $comments, array $postIds, array $userIds)
-    {
-        $this->info("Salvando comentários...");
-        
-        $saved = 0;
-        $skipped = 0;
-        
-        foreach ($comments as $apiComment) {
-            $commentUserId = $apiComment['user']['id'] ?? null;
-            
-            // Validação O(1) para post e usuário
-            if (!isset($postIds[$apiComment['postId']]) || !isset($userIds[$commentUserId])) {
-                $skipped++;
-                continue;
-            }
+{
+    $this->info("Salvando comentários...");
 
-            Comment::create([
-                'id' => $apiComment['id'],
-                'post_id' => $apiComment['postId'],
-                'body' => $apiComment['body'],
-                'user' => $apiComment['user'] ?? [],
-            ]);
-            $saved++;
+    $saved = 0;
+    $skipped = 0;
+
+    foreach ($comments as $apiComment) {
+
+        $commentUserId = $apiComment['user']['id'] ?? null;
+
+        // Validação rápida
+        if (!isset($postIds[$apiComment['postId']]) || !isset($userIds[$commentUserId])) {
+            $skipped++;
+            continue;
         }
-        
-        if ($skipped > 0) {
-            $this->warn("$skipped comentários pulados (post ou usuário não encontrado).");
-        }
-        
-        $this->info("$saved comentários salvos.");
+
+        // Pegando o usuário REAL no banco
+        $realUser = User::find($commentUserId);
+
+        // Montando o JSON COMPLETO do usuário a ser salvo no comentário
+        $commentUserData = [
+            'id' => $realUser->id,
+            'fullName' => $realUser->first_name . ' ' . $realUser->last_name,
+            'image' => $realUser->image,
+        ];
+
+        Comment::create([
+            'id' => $apiComment['id'],
+            'post_id' => $apiComment['postId'],
+            'body' => $apiComment['body'],
+            'user' => $commentUserData, // JSON completo
+        ]);
+
+        $saved++;
     }
+
+    if ($skipped > 0) {
+        $this->warn("$skipped comentários pulados (post ou usuário não encontrado).");
+    }
+
+    $this->info("$saved comentários salvos.");
+}
+
 }

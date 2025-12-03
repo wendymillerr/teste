@@ -1,8 +1,7 @@
 <div class="main-card max-w-3xl mx-auto p-4 flex gap-3">
 
-    {{-- Avatar --}}
-    <img src="{{ $comment->user['image'] ?? 'https://via.placeholder.com/40' }}" 
-         class="w-10 h-10 rounded-full object-cover border">
+   <img src="{{ $comment->user_image ?? 'https://via.placeholder.com/40' }}"
+     class="w-10 h-10 rounded-full object-cover border">
 
     <div>
         <p class="text-gray-800 text-sm">
@@ -15,3 +14,7 @@
     </div>
 
 </div>
+
+
+
+
