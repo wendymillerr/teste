@@ -37,11 +37,7 @@
                        
                     </div>
 
-                    {{-- Navigation Links --}}
-                    <nav class="flex items-center space-x-6">
-                        <a href="#" class="text-sm font-medium text-gray-600 hover:text-indigo-600 transition-colors duration-200">
-                            Users
-                        </a>
+                    
                         
                         @guest
                             

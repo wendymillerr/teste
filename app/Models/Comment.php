@@ -9,14 +9,17 @@ class Comment extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $keyType = 'integer';
+
     protected $fillable = [
-        'id',       // id do comentário da API
+        'id',       
         'post_id',
         'user',
         'body',
     ];
 
-    // Faz com que o campo user seja convertido para array automaticamente
+    
     protected $casts = [
         'user' => 'array',
     ];
@@ -34,4 +37,8 @@ class Comment extends Model
         return User::find($this->user['id'] ?? null);
     }
 
+    public function getUserNameAttribute()
+    {
+        return $this->user['fullName'] ?? 'Anônimo';
+    }
 }

@@ -1,4 +1,3 @@
-
 <div class="main-card max-w-3xl mx-auto p-4 flex gap-3">
 
     {{-- Avatar --}}
@@ -11,12 +10,8 @@
         </p>
 
         <p class="text-xs text-gray-500 mt-1">
-            — {{ $comment->user['first_name'] ?? 'Anônimo' }}
+            — {{ $comment->user_name }}
         </p>
     </div>
 
 </div>
-
-
-
-
