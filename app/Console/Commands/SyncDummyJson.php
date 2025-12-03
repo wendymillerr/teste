@@ -171,7 +171,7 @@ class SyncDummyJson extends Command
                 'id' => $apiComment['id'],
                 'post_id' => $apiComment['postId'],
                 'body' => $apiComment['body'],
-                'user' => json_encode($apiComment['user'] ?? []),
+                'user' => $apiComment['user'] ?? [],
             ]);
             $saved++;
         }
