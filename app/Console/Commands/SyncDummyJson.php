@@ -34,7 +34,7 @@ class SyncDummyJson extends Command
 
         });
 
-        $this->info("✅ Sincronização finalizada com sucesso!");
+        $this->info("Sincronização finalizada com sucesso!");
         return 0;
     }
 
@@ -44,23 +44,23 @@ class SyncDummyJson extends Command
 
     private function clearTables()
     {
-        $this->info("🗑️  Limpando tabelas existentes...");
+        $this->info("Limpando tabelas existentes...");
         
         // Ordem importante para respeitar foreign keys
         Comment::query()->delete();
         Post::query()->delete();
         User::query()->delete();
         
-        $this->info("✅ Tabelas limpas!");
+        $this->info("Tabelas limpas!");
     }
 
     private function fetchUsers()
     {
-        $this->info("👥 Buscando usuários na API...");
+        $this->info("Buscando usuários na API...");
         $response = Http::get('https://dummyjson.com/users?limit=0');
 
         if (!$response->successful()) {
-            $this->error("❌ Erro ao buscar usuários.");
+            $this->error("Erro ao buscar usuários.");
             throw new \Exception("Falha na API de usuários");
         }
 
@@ -69,7 +69,7 @@ class SyncDummyJson extends Command
 
     private function saveUsers(array $users)
     {
-        $this->info("💾 Salvando usuários...");
+        $this->info("Salvando usuários...");
         
         $savedIds = [];
         foreach ($users as $apiUser) {
@@ -86,17 +86,17 @@ class SyncDummyJson extends Command
             $savedIds[$user->id] = true;
         }
         
-        $this->info("✅ " . count($users) . " usuários sincronizados.");
+        $this->info(count($users) . " usuários sincronizados.");
         return $savedIds; // Retorna array de IDs para validação rápida
     }
 
     private function fetchPosts()
     {
-        $this->info("📝 Buscando posts na API...");
+        $this->info("Buscando posts na API...");
         $response = Http::get('https://dummyjson.com/posts?limit=0');
 
         if (!$response->successful()) {
-            $this->error("❌ Erro ao buscar posts.");
+            $this->error("Erro ao buscar posts.");
             throw new \Exception("Falha na API de posts");
         }
 
@@ -105,7 +105,7 @@ class SyncDummyJson extends Command
 
     private function savePosts(array $posts, array $userIds)
     {
-        $this->info("💾 Salvando posts...");
+        $this->info("Salvando posts...");
         
         $savedIds = [];
         $skipped = 0;
@@ -122,7 +122,7 @@ class SyncDummyJson extends Command
                 'user_id' => $apiPost['userId'],
                 'title' => $apiPost['title'],
                 'body' => $apiPost['body'],
-                'tags' => json_encode($apiPost['tags'] ?? []),
+                'tags' => $apiPost['tags'] ?? [],
                 'likes' => $apiPost['reactions']['likes'] ?? 0,
                 'dislikes' => $apiPost['reactions']['dislikes'] ?? 0,
                 'views' => $apiPost['views'] ?? 0,
@@ -131,20 +131,20 @@ class SyncDummyJson extends Command
         }
         
         if ($skipped > 0) {
-            $this->warn("⚠️  $skipped posts pulados (usuário não encontrado).");
+            $this->warn("$skipped posts pulados (usuário não encontrado).");
         }
         
-        $this->info("✅ " . (count($posts) - $skipped) . " posts salvos.");
+        $this->info((count($posts) - $skipped) . " posts salvos.");
         return $savedIds;
     }
 
     private function fetchComments()
     {
-        $this->info("💬 Buscando comentários na API...");
+        $this->info("Buscando comentários na API...");
         $response = Http::get('https://dummyjson.com/comments?limit=0');
 
         if (!$response->successful()) {
-            $this->error("❌ Erro ao buscar comentários.");
+            $this->error("Erro ao buscar comentários.");
             throw new \Exception("Falha na API de comentários");
         }
 
@@ -153,7 +153,7 @@ class SyncDummyJson extends Command
 
     private function saveComments(array $comments, array $postIds, array $userIds)
     {
-        $this->info("💾 Salvando comentários...");
+        $this->info("Salvando comentários...");
         
         $saved = 0;
         $skipped = 0;
@@ -177,9 +177,9 @@ class SyncDummyJson extends Command
         }
         
         if ($skipped > 0) {
-            $this->warn("⚠️  $skipped comentários pulados (post ou usuário não encontrado).");
+            $this->warn("$skipped comentários pulados (post ou usuário não encontrado).");
         }
         
-        $this->info("✅ $saved comentários salvos.");
+        $this->info("$saved comentários salvos.");
     }
 }
