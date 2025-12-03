@@ -12,16 +12,24 @@ class UserController extends Controller
     {
         $user = User::withCount('posts')->findOrFail($id);
 
-    // Busca posts do usuário com contagem de comentários
-    $posts = Post::where('user_id', $id)->withCount('comments')->paginate(10);
+        // busca posts do usuário com contagem de comentários
+        $posts = Post::where('user_id', $id)
+            ->withCount('comments')
+            ->paginate(10);
 
-    return view('users.show', compact('user', 'posts'));
+        return view('users.show', compact('user', 'posts'));
     }
 
-    // Posts de um usuário
+    // posts de um usuário
     public function posts($id)
     {
-        $posts = Post::where('user_id', $id)->withCount('comments')->paginate(30);
-        return view('users.posts', compact('posts'));
+        
+        $user = User::withCount('posts')->findOrFail($id);
+
+        $posts = Post::where('user_id', $id)
+            ->withCount('comments')
+            ->paginate(30);
+
+        return view('users.posts', compact('user', 'posts'));
     }
 }
