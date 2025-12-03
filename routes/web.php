@@ -15,4 +15,8 @@ Route::get('/post/{id}', [PostController::class, 'show'])->name('post.show');
 Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
 
 // Posts do usuário
-Route::get('/user/{id}/posts', [UserController::class, 'posts'])->name('user.posts');
+//Route::get('/user/{id}/posts', [UserController::class, 'posts'])->name('user.posts');
+
+Route::get('/user/{id}', [UserController::class, 'show'])->name('users.profile');
+
+Route::get('/user/{id}/likes', [UserController::class, 'likes'])->name('users.likes');
