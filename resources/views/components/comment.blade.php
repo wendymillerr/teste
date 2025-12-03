@@ -1,11 +1,22 @@
-<div class="main-card p-4 mt-4">
 
-    <p class="text-zinc-700 text-sm">
-        {{ $comment->body }}
-    </p>
+<div class="main-card max-w-3xl mx-auto p-4 flex gap-3">
 
-    <p class="text-xs text-zinc-500 mt-2">
-        — {{ $comment->user->username ?? 'Anônimo' }}
-    </p>
+    {{-- Avatar --}}
+    <img src="{{ $comment->user['image'] ?? 'https://via.placeholder.com/40' }}" 
+         class="w-10 h-10 rounded-full object-cover border">
+
+    <div>
+        <p class="text-gray-800 text-sm">
+            {{ $comment->body }}
+        </p>
+
+        <p class="text-xs text-gray-500 mt-1">
+            — {{ $comment->user['first_name'] ?? 'Anônimo' }}
+        </p>
+    </div>
 
 </div>
+
+
+
+
