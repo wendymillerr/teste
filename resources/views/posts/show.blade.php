@@ -24,17 +24,17 @@
             @endif
 
 
-            {{-- Imagem do post --}}
+         
             @if(!empty($post->image))
                 <img src="{{ $post->image }}" alt="{{ $post->title }}" class="w-full h-auto rounded-md mt-2">
             @endif
 
-            {{-- Corpo do post --}}
+          
             <div class="text-gray-700 leading-relaxed">
                 {{ $post->body }}
             </div>
 
-            {{-- Reactions e comentários --}}
+            
             <div class="flex items-center gap-4 text-sm text-gray-600 mt-2">
                 <span>👍 {{ $post->likes ?? 0 }}</span>
                 <span>👎 {{ $post->dislikes ?? 0 }}</span>

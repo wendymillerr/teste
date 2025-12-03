@@ -4,6 +4,8 @@
  
 --}}
 
+@props(['tags' => []])
+
 <div class="bg-white rounded-xl shadow-md p-4 mb-8">
     <form method="GET" action="{{ route('posts.index') }}"class="flex flex-col lg:flex-row gap-4">
         {{-- Campo de Busca por Título --}}
