@@ -20,3 +20,5 @@ Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
 Route::get('/user/{id}', [UserController::class, 'show'])->name('users.profile');
 
 Route::get('/user/{id}/likes', [UserController::class, 'likes'])->name('users.likes');
+
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
