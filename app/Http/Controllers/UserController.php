@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Post;
+use Illuminate\Http\Request; 
 
 class UserController extends Controller
 {
@@ -20,16 +21,21 @@ class UserController extends Controller
         return view('users.show', compact('user', 'posts'));
     }
 
-    // posts de um usuário
-    public function posts($id)
-    {
-        
-        $user = User::withCount('posts')->findOrFail($id);
+   public function posts($id, Request $request)
+{
+    $user = User::findOrFail($id);
 
-        $posts = Post::where('user_id', $id)
-            ->withCount('comments')
-            ->paginate(30);
+    $query = Post::where('user_id', $id)->withCount('comments');
 
-        return view('users.posts', compact('user', 'posts'));
-    }
+    // Reaproveita filtros do model
+    $query = Post::applyFilters($query, $request);
+
+    $posts = $query->paginate(30);
+
+    // Extrair tags só desse usuário
+    $tags = Post::extractTags(Post::where('user_id', $id));
+
+    return view('users.posts', compact('user', 'posts', 'tags'));
+}
+
 }

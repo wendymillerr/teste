@@ -21,7 +21,7 @@ class Post extends Model
         'views',
     ];
 
-    // Se quiser que tags seja automaticamente convertida de/para array JSON
+    // Conversão automática de tags JSON <-> array
     protected $casts = [
         'tags' => 'array',
     ];
@@ -40,5 +40,48 @@ class Post extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * Aplica filtros à query de posts
+     * Pode ser usado em PostController e UserController
+     */
+    public static function applyFilters($query, $request)
+    {
+        if ($request->search) {
+            $query->where('title', 'LIKE', "%{$request->search}%");
+        }
+
+        if ($request->tag) {
+            $query->whereJsonContains('tags', $request->tag);
+        }
+
+        if ($request->date) {
+            // Se quiser, aqui você pode converter 'today', 'week', etc para datas reais
+            $query->whereDate('created_at', $request->date);
+        }
+
+        if ($request->likes) {
+            if ($request->likes === 'most') {
+                $query->orderBy('likes', 'desc');
+            } elseif ($request->likes === 'least') {
+                $query->orderBy('likes', 'asc');
+            }
+        }
+
+        return $query;
+    }
+
+    /**
+     * Extrai todas as tags únicas de uma query
+     */
+    public static function extractTags($query)
+    {
+        return $query->pluck('tags')
+                     ->map(fn($t) => is_array($t) ? $t : [])
+                     ->flatten()
+                     ->unique()
+                     ->sort()
+                     ->values();
     }
 }

@@ -7,49 +7,22 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    // Página inicial: lista de posts com filtros
-    public function index(Request $request)
-    {
-        $query = Post::query();
+   
+   public function index(Request $request)
+{
+    $query = Post::query()->withCount('comments');
 
-       
-        if (request('search')) {
-            $query->where('title', 'LIKE', '%' . request('search') . '%');
-        }
+    
+    $query = Post::applyFilters($query, $request);
 
-        if (request('tag')) {
-            $query->whereJsonContains('tags', request('tag'));
-        }
+    $posts = $query->paginate(30);
 
-      
-        if (request('date')) {
-            $query->whereDate('created_at', request('date'));
-        }
+    
+    $tags = Post::extractTags(Post::query());
 
-        
-        $posts = $query->withCount('comments')->paginate(30);
+    return view('posts.index', compact('posts', 'tags'));
+}
 
-        
-        $tags = Post::pluck('tags')
-            ->map(function ($t) {
-                if (is_array($t)) {
-                    return $t;
-                }
-
-                if (is_string($t)) {
-                    return ;
-                }
-
-                return [];
-            })
-            ->flatten()
-            ->unique()
-            ->sort()
-            ->values();
-
-
-        return view('posts.index', compact('posts', 'tags'));
-    }
 
     // detalhes de um post
     public function show($id)
