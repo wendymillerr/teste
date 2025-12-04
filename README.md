@@ -55,3 +55,8 @@ php artisan serve
 # 9.Inicie o servidor Vite:
 npm install
 npm run dev 
+
+
+### Link do vídeo 
+https://youtu.be/oFtsFbLB6DY
+
