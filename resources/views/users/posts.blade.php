@@ -20,6 +20,7 @@
                         Voltar ao Perfil
                     </a>
                 </div>
+                
                 <div class="flex items-center gap-4">
                     {{-- Mini Avatar --}}
                     <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center">
@@ -38,87 +39,14 @@
                     </div>
                 </div>
             </div>
+            <x-filter-bar :tags="$tags" :action="route('users.posts', $user->id)" />
+
 
             <div class="flex flex-col lg:flex-row gap-8">
                 
-                {{-- Sidebar Filters --}}
-                <aside class="lg:w-72 flex-shrink-0">
-                    <div class="bg-white rounded-xl shadow-sm p-6 sticky top-8">
-                        <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                            <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
-                            </svg>
-                            Filtros
-                        </h2>
+              
+                  
 
-                        <form action="{{ route('users.posts', $user->id) }}" method="GET" class="space-y-5">
-                            
-                            {{-- Search by Title --}}
-                            <div>
-                                <label for="search" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Buscar por Título
-                                </label>
-                                <div class="relative">
-                                    <input type="text" 
-                                           name="search" 
-                                           id="search"
-                                           value="{{ request('search') }}"
-                                           placeholder="Digite o título..."
-                                           class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-sm">
-                                    <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-
-                            {{-- Filter by Tag --}}
-                            <div>
-                                <label for="tag" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Filtrar por Tag
-                                </label>
-                                <select name="tag" 
-                                        id="tag"
-                                        class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-sm bg-white">
-                                    <option value="">Todas as tags</option>
-                                    @foreach($tags ?? [] as $tag)
-                                        <option value="{{ $tag->slug }}" {{ request('tag') == $tag->slug ? 'selected' : '' }}>
-                                            {{ $tag->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                          
-                            {{-- Filter by Likes --}}
-                            <div>
-                                <label for="likes" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Ordenar por 
-                                </label>
-                                <select name="likes" 
-                                        id="likes"
-                                        class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-sm bg-white">
-                                    <option value="">Mais recentes</option>
-                                    <option value="">Mais visualizados</option>
-                                    <option value="most" {{ request('likes') == 'most' ? 'selected' : '' }}>Mais curtidos</option>
-                                    <option value="least" {{ request('likes') == 'least' ? 'selected' : '' }}>Menos curtidos</option>
-                                    
-                                </select>
-                            </div>
-
-                            {{-- Action Buttons --}}
-                            <div class="flex gap-2 pt-2">
-                                <button type="submit" 
-                                        class="flex-1 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors duration-200 text-sm">
-                                    Aplicar Filtros
-                                </button>
-                                <a href="{{ route('users.posts', $user->id) }}" 
-                                   class="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors duration-200 text-sm">
-                                    Limpar
-                                </a>
-                            </div>
-                        </form>
-                    </div>
-                </aside>
 
                 {{-- Posts Grid --}}
                 <main class="flex-1">

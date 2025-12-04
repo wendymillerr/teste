@@ -4,10 +4,10 @@
  
 --}}
 
-@props(['tags' => []])
+@props(['tags' => [], 'action' => route('posts.index')])
 
 <div class="bg-white rounded-xl shadow-md p-4 mb-8">
-    <form method="GET" action="{{ route('posts.index') }}"class="flex flex-col lg:flex-row gap-4">
+    <form method="GET" action="{{ $action }}" class="flex flex-col lg:flex-row gap-4">
         {{-- Campo de Busca por Título --}}
         <div class="flex-1 relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

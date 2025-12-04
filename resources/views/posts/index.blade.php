@@ -7,7 +7,7 @@
 <x-layouts.app-layout>
     {{-- Meta tags para SEO --}}
     @section('title', 'Blog Posts ')
-    @section('description', 'Explore os últimos posts do nosso blog. Encontre artigos sobre diversos temas.')
+   
 
     <div class="min-h-screen bg-gray-50">
         {{-- Container Principal --}}
