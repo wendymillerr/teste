@@ -57,6 +57,6 @@ npm install
 npm run dev 
 
 
-### Link do vídeo 
+Link do vídeo 
 https://youtu.be/oFtsFbLB6DY
 
