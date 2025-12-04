@@ -58,5 +58,6 @@ npm run dev
 
 
 Link do vídeo 
-https://www.canva.com/design/DAG6hc3pjE8/TrpOuFZjxQK5xvas6K9M_Q/edit?utm_content=DAG6hc3pjE8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+Youtube:  https://www.youtube.com/watch?v=oFtsFbLB6DY
+Canva:  https://www.canva.com/design/DAG6hc3pjE8/TrpOuFZjxQK5xvas6K9M_Q/edit?utm_content=DAG6hc3pjE8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
